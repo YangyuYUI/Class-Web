@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firebase Firestore Testing</title>
+
+  <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-firestore.js"></script>
+</head>
+<body>
+      <!-- Display Firestore data -->
+      <div id="firestore-data"></div>
+
+      <div id="login-form">
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" required>
+        <button id="signInButton">Sign In</button>
+      </div>
+    
+      <div id="userDetails"></div>
+
+      <div id="sign-out">
+        <button id="signOutButton">Sign Out</button>
+      </div>
+
+      <button id="addCourseButton">addCouse</button>
+
+      <div id="login-form">
+        <label for="docId">docId:</label>
+        <input type="text" id="docId" required>
+        <button id="deleteButton">delete</button>
+      </div>
+
+      <script type="module">
+        import { auth, getCourses, addCourse, deleteCourse } from "./api.js"
+    
+        getCourses().then((docs) => {
+          const firestoreDataDiv = document.getElementById('firestore-data');
+          //default data
+          firestoreDataDiv.innerHTML = JSON.stringify(docs, null, 4);
+        })
+
+        // Firebase authentication state change listener
+        const userDetails = document.getElementById('userDetails');
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                userDetails.innerHTML = `<h3>Hello ${user.displayName}!</h3> <p>User ID: ${user.uid}</p>`;
+            } else {
+                userDetails.innerHTML = '';
+            }
+        });
+    
+        // Firebase authentication functions
+        document.getElementById('signInButton').onclick = () => {
+          const email = document.getElementById('email').value;
+          const password = document.getElementById('password').value;
+          console.log('email:', email, ' password:', password)
+          auth.signInWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+              // Signed in
+              const user = userCredential.user;
+              console.log('User signed in:', user);
+            })
+        }
+
+        document.getElementById('signOutButton').onclick = () => {
+          auth.signOut()
+            .then(() => {
+              // Signed out
+              console.log('User signed out');
+            })
+        }
+    
+        document.getElementById('addCourseButton').onclick = () => {
+          addCourse("教室1", "test", ["09:00 - 09:30"], "alice")
+            .then(function() {
+              console.log("Document successfully written!");
+            })
+            .catch(function(error) {
+              console.error("Error writing document: ", error);
+            });
+        }
+
+        document.getElementById('deleteButton').onclick = () => {
+          const docId = document.getElementById('docId').value
+          deleteCourse(docId)
+            .then(() => {
+              console.log('Document successfully deleted!');
+            })
+            .catch((error) => {
+              console.error('Error deleting document: ', error);
+            });
+        }
+        </script>
+</body>
+</html>

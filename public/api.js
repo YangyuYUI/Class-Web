@@ -12,16 +12,41 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const firestore = firebase.firestore();
+const auth = firebase.auth();
 
+const COLLECTION_NAME = 'classroom'
 
-function getCourses(callback) {
+function getCourses() {
     // Reference to Firestore collection
-    const collection = firestore.collection('classroom');
-
-    // Real-time listener for Firestore data changes
-    collection.onSnapshot((snapshot) => {
-        callback(snapshot.docs.map((doc) => { return doc.data() }))
+    const collection = firestore.collection(COLLECTION_NAME);
+    // Get data from the collection
+    return new Promise((resolve, reject) => {
+        const unsubscribe = collection.onSnapshot((snapshot) => {
+            unsubscribe();
+            resolve(snapshot.docs.map((doc) => {
+                return {Id: doc.id, ...doc.data()}
+            }));
+        });
     });
 }
 
-export {getCourses}
+function addCourse(classroom, course, sections, teacher) {
+    // Data to be written
+    const data = {
+      Classroom: classroom,
+      Course: course,
+      Sections: sections,
+      Teacher: teacher
+    };
+    // Add data to the document
+    return firestore.collection(COLLECTION_NAME).add(data)
+}
+
+function deleteCourse(documentId) {
+    // Reference to the document you want to delete
+    const documentRef = firestore.collection(COLLECTION_NAME).doc(documentId);
+    // Delete the document
+    return documentRef.delete()
+  }
+
+export {auth, getCourses, addCourse, deleteCourse}
