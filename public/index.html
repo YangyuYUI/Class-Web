@@ -8,23 +8,97 @@
   <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-firestore.js"></script>
+  
+  
+  
 </head>
 <body>
-
+  
   <h1>Firebase Firestore Testing</h1>
 
   <!-- Display Firestore data -->
   <div id="firestore-data"></div>
+  
+  
 
   <script type="module">
-    import {getCourses} from "./api.js"
-    
-    getCourses((docs) => {
-      // Code here
+    //import { createApp, ref } from 'vue'
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
 
-      console.log(JSON.stringify(docs, null, 4))
-    })
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyCwzvhGZlpxlVV32iMO6m9eL0fAsRiRisU",
+        authDomain: "tlrca-75fc9.firebaseapp.com",
+        projectId: "tlrca-75fc9",
+        storageBucket: "tlrca-75fc9.appspot.com",
+        messagingSenderId: "841216398641",
+        appId: "1:841216398641:web:b2a4253470657a117f0c10"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Reference to Firestore collection
+    const firestore = firebase.firestore();
+    const collection = firestore.collection('classroom');
+
+    // Real-time listener for Firestore data changes
+    collection.onSnapshot((snapshot) => {
+      onCourseData(
+        snapshot.docs.map((doc) => { return doc.data() })
+      )
+    });
+    // Code here
     
+
+    function onCourseData(docs) {
+        const firestoreDataDiv = document.getElementById('firestore-data');
+        //default data
+        firestoreDataDiv.innerHTML = JSON.stringify(docs, null, 4);
+        
+        //create element
+        const table = document.createElement('table');
+        const thead = document.createElement('thead');
+        const tbody = document.createElement('tbody');
+
+        //define type tr表格行/th單個 粗體/td可與tbody/footu一起
+        const titles = ['Teacher','Course','Classroom','Sections'];
+        const trHead = document.createElement('tr');
+        
+        titles.forEach((title) => {
+          const th = document.createElement('th');
+          //update to title
+          th.textContent = title;
+          //th to tr
+          trHead.appendChild(th);
+        });
+        thead.appendChild(trHead);
+
+        //data to main
+        docs.forEach((doc) => {
+          const tr = document.createElement('tr');
+          titles.forEach((title) => {
+            const td = document.createElement('td');
+            if (title === 'Sections') {
+              //make string
+              td.textContent = doc[title].join('!! ');
+            } else {
+              //show data or space
+              td.textContent = doc[title] || '';
+            }
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+
+        //show form
+        table.appendChild(thead);
+        table.appendChild(tbody);
+        //render page
+        firestoreDataDiv.appendChild(table);
+        //console.log(JSON.stringify(docs, null, 4))
+    }
   </script>
 
 </body>
