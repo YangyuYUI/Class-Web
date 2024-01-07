@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firebase Firestore Testing</title>
+
+  <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-firestore.js"></script>
+</head>
+<body>
+
+  <h1>Firebase Firestore Testing</h1>
+
+  <!-- Display Firestore data -->
+  <div id="firestore-data"></div>
+
+  <script type="module">
+    import {getCourses} from "./api.js"
+    
+    getCourses((docs) => {
+      // Code here
+
+      console.log(JSON.stringify(docs, null, 4))
+    })
+    
+  </script>
+
+</body>
+</html>
