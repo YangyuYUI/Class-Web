@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!--滿屏加載-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>課表</title>
+    <link rel="stylesheet" type="text/css" href="css\login.css" />
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-firestore.js"></script>
+  </head>
+  <body>
+    <div class="login-page">
+      <div class="form">
+        <h1>請登入</h1>
+        <input
+          type="text"
+          name="username"
+          placeholder="username"
+          id="username"
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="password"
+          id="pass"
+          required
+        />
+        <button type="submit" value="Sign in" id="signIn">login</button>
+        <div id="error-message"></div>
+      </div>
+    </div>
+    <script type="module">
+      //test@tlrca.org
+      import { auth, getCourses, addCourse, deleteCourse } from "./api.js";
+      var logInBtn = document.querySelector("#signIn");
+      logInBtn.addEventListener("click", logIncheck, false);
+      function logIncheck() {
+        // model
+        var emailStr = document.querySelector("#username").value;
+        var passwordStr = document.querySelector("#pass").value;
+        var account = {}; //輸入的資料，填入空物件
+        account.email = emailStr; //填入的 email
+        account.password = passwordStr; //填入的密碼
+        console.log(account.email);
+        console.log(account.password);
+        auth
+          .signInWithEmailAndPassword(account.email, account.password)
+          .then((userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+            console.log("User signed in:", user);
+            window.location.href = "edit.html";
+          })
+          .catch(() => {
+            var errorMessageElement = document.getElementById("error-message");
+            errorMessageElement.textContent = "帳號或密碼錯誤";
+            errorMessageElement.style.color = "#F24241";
+          });
+      }
+    </script>
+  </body>
+</html>

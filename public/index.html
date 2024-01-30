@@ -1,105 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Firebase Firestore Testing</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Firebase Firestore Testing</title>
 
-  <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-firestore.js"></script>
-  
-  
-  
-</head>
-<body>
-  
-  <h1>Firebase Firestore Testing</h1>
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-firestore.js"></script>
 
-  <!-- Display Firestore data -->
-  <div id="firestore-data"></div>
-  
-  
+    <link rel="stylesheet" type="text/css" href="css\form.css" />
+  </head>
+  <body>
+    <h1>Firebase Firestore Testing</h1>
 
-  <script type="module">
-    //import { createApp, ref } from 'vue'
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
+    <!-- Display Firestore data -->
+    <div id="firestore-data"></div>
 
-    // Your web app's Firebase configuration
-    const firebaseConfig = {
+    <script type="module">
+      //import { createApp, ref } from 'vue'
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
         apiKey: "AIzaSyCwzvhGZlpxlVV32iMO6m9eL0fAsRiRisU",
         authDomain: "tlrca-75fc9.firebaseapp.com",
         projectId: "tlrca-75fc9",
         storageBucket: "tlrca-75fc9.appspot.com",
         messagingSenderId: "841216398641",
-        appId: "1:841216398641:web:b2a4253470657a117f0c10"
-    };
+        appId: "1:841216398641:web:b2a4253470657a117f0c10",
+      };
 
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
 
-    // Reference to Firestore collection
-    const firestore = firebase.firestore();
-    const collection = firestore.collection('classroom');
+      // Reference to Firestore collection
+      const firestore = firebase.firestore();
+      const collection = firestore.collection("classroom");
 
-    // Real-time listener for Firestore data changes
-    collection.onSnapshot((snapshot) => {
-      onCourseData(
-        snapshot.docs.map((doc) => { return doc.data() })
-      )
-    });
-    // Code here
-    
+      // Real-time listener for Firestore data changes
+      collection.onSnapshot((snapshot) => {
+        onCourseData(
+          snapshot.docs.map((doc) => {
+            return doc.data();
+          })
+        );
+      });
 
-    function onCourseData(docs) {
-        const firestoreDataDiv = document.getElementById('firestore-data');
-        //default data
+      // Code here
+      function onCourseData(docs) {
+        const firestoreDataDiv = document.getElementById("firestore-data");
+        // default data
         firestoreDataDiv.innerHTML = JSON.stringify(docs, null, 4);
-        
-        //create element
-        const table = document.createElement('table');
-        const thead = document.createElement('thead');
-        const tbody = document.createElement('tbody');
 
-        //define type tr表格行/th單個 粗體/td可與tbody/footu一起
-        const titles = ['Teacher','Course','Classroom','Sections'];
-        const trHead = document.createElement('tr');
-        
+        // create table
+        const table = document.createElement("table");
+        const thead = document.createElement("thead");
+        const tbody = document.createElement("tbody");
+
+        // define type tr表格行/th單個 粗體/td可與tbody/footu一起
+        const titles = [
+          "時間/教室",
+          "教室一",
+          "教室二",
+          "教室三",
+          "交誼廳",
+          "三能/線上",
+        ];
+
+        const trHead = document.createElement("tr");
         titles.forEach((title) => {
-          const th = document.createElement('th');
-          //update to title
+          const th = document.createElement("th");
           th.textContent = title;
-          //th to tr
           trHead.appendChild(th);
         });
         thead.appendChild(trHead);
 
-        //data to main
+        const timeRows = {}; // 用來存放各個時間對應的行
+
+        // Sort the docs based on the first section's start time
+        docs.sort((a, b) => {
+          const timeA = a["Sections"][0].split("-")[0].trim();
+          const timeB = b["Sections"][0].split("-")[0].trim();
+          return (
+            new Date(`2024-01-01 ${timeA}`) - new Date(`2024-01-01 ${timeB}`)
+          );
+        });
+
         docs.forEach((doc) => {
-          const tr = document.createElement('tr');
-          titles.forEach((title) => {
-            const td = document.createElement('td');
-            if (title === 'Sections') {
-              //make string
-              td.textContent = doc[title].join('!! ');
-            } else {
-              //show data or space
-              td.textContent = doc[title] || '';
+          const sections = doc["Sections"] || [];
+          const time = sections.length > 0 ? sections[0] : "N/A";
+
+          // Check if a row with this time already exists
+          let tr = timeRows[time];
+          if (!tr) {
+            tr = document.createElement("tr");
+            timeRows[time] = tr;
+
+            const timeTd = document.createElement("td");
+            timeTd.textContent = time;
+            tr.appendChild(timeTd);
+
+            titles.slice(1).forEach((title) => {
+              const td = document.createElement("td");
+              td.textContent = "."; // Set default value to '.'
+              tr.appendChild(td);
+            });
+          }
+
+          // Populate the cells for Classroom, Teacher, and Course
+          titles.slice(1).forEach((title, index) => {
+            const td = tr.children[index + 1]; // Skip the first td for time
+            if (title === doc["Classroom"]) {
+              td.textContent = `${doc["Teacher"] || "N/A"} / ${
+                doc["Course"] || "N/A"
+              }`;
             }
-            tr.appendChild(td);
           });
+
           tbody.appendChild(tr);
         });
 
-        //show form
         table.appendChild(thead);
         table.appendChild(tbody);
-        //render page
-        firestoreDataDiv.appendChild(table);
-        //console.log(JSON.stringify(docs, null, 4))
-    }
-  </script>
 
-</body>
+        // replace the existing table with the new one
+        const existingTable = document.getElementById("timetable");
+        if (existingTable) {
+          existingTable.parentNode.replaceChild(table, existingTable);
+        } else {
+          document.body.appendChild(table);
+        }
+      }
+    </script>
+  </body>
 </html>
