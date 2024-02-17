@@ -76,7 +76,7 @@
         }
     
         document.getElementById('addCourseButton').onclick = () => {
-          addCourse("教室1", "test", ["09:00 - 09:30"], "alice")
+          addCourse(new Date(2024, 1, 17), "教室1", "test", ["09:00 - 09:30"], "alice")
             .then(function() {
               console.log("Document successfully written!");
             })
