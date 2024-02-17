@@ -7,18 +7,225 @@
     <title>課表</title>
     <link rel="stylesheet" type="text/css" href="css\form.css" />
     <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-firestore.js"></script>
+    
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
 </head>
   <body>
-    <h1>FORM EDIT</h1>
+    <h1 class="visually-hidden">表格編輯</h1>
+      <div class="container-fluid">
+        <header class="d-flex flex-wrap justify-content-center py-3 mb-8 border-bottom">
+          <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+            <img class="bi me-2" width="40" height="32"><use xlink:href="logo.png"/></svg>
+            <span class="fs-4">表格編輯</span>
+          </a>
+    
+          <ul class="nav nav-pills">
+            <!-- <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">首頁</a></li>-->
+            <button type="button" class="btn btn-outline-primary me-1" onclick="window.location.href = 'about.html'">關於</button>
+            <!--<div id="sign-out">
+              <button id="signOutButton">Sign Out</button>
+            </div>-->
+            <button id="sign-out" type="button" class="btn btn-outline-primary">登出</button>
+            
+            
+          </ul>
+        </header>
+      </div>
+      <div class="date">
+        <div class="container-fluid p-0">
+          <div class="row align-items-start">
+            <div class="col-md-10 text-end">
+              <h4>選擇課表日期:</h4>
+            </div>  
+            <div class="col">
+            <button class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+              選擇日期
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </div>
+               
+        </div> 
+        </div>
+
+        
+      </div>
+    
+    
    
 
     
 
     <script type="module">
       
+      //import { createApp, ref } from 'vue'
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
       
+
+      import { auth, getCourses, addCourse, deleteCourse } from "./api.js"
+
+      
+      // Reference to Firestore collection
+      const firestore = firebase.firestore();
+      const collection = firestore.collection("classroom");
+
+      // Real-time listener for Firestore data changes
+      collection.onSnapshot((snapshot) => {
+        onCourseData(
+          snapshot.docs.map((doc) => {
+            return doc.data();
+          })
+        );
+      });
+
+      // Code here
+      function onCourseData(docs) {
+        const firestoreDataDiv = document.getElementById("firestore-data");
+        // default data
+        //firestoreDataDiv.innerHTML = JSON.stringify(docs, null, 4);
+
+        // create table
+        const table = document.createElement("table");
+        const thead = document.createElement("thead");
+        const tbody = document.createElement("tbody");
+
+        // define type tr表格行/th單個 粗體/td可與tbody/footu一起
+        const titles = [
+          "時間/教室",
+          "教室一",
+          "教室二",
+          "教室三",
+          "交誼廳",
+          "三能/線上",
+        ];
+
+        const trHead = document.createElement("tr");
+        titles.forEach((title) => {
+          const th = document.createElement("th");
+          th.textContent = title;
+          trHead.appendChild(th);
+        });
+        thead.appendChild(trHead);
+
+        const timeRows = {}; // 用來存放各個時間對應的行
+
+        // Sort the docs based on the first section's start time
+        docs.sort((a, b) => {
+          const timeA = a["Sections"][0].split("-")[0].trim();
+          const timeB = b["Sections"][0].split("-")[0].trim();
+          return (
+            new Date(`2024-01-01 ${timeA}`) - new Date(`2024-01-01 ${timeB}`)
+          );
+        });
+
+        docs.forEach((doc) => {
+          const sections = doc["Sections"] || [];
+          const time = sections.length > 0 ? sections[0] : "N/A";
+
+          // Check if a row with this time already exists
+          let tr = timeRows[time];
+          if (!tr) {
+            tr = document.createElement("tr");
+            timeRows[time] = tr;
+
+            const timeTd = document.createElement("td");
+            timeTd.textContent = time;
+            tr.appendChild(timeTd);
+
+            titles.slice(1).forEach((title) => {
+              const td = document.createElement("td");
+              td.textContent = "."; // Set default value to '.'
+              tr.appendChild(td);
+            });
+          }
+
+          // Populate the cells for Classroom, Teacher, and Course
+          titles.slice(1).forEach((title, index) => {
+            const td = tr.children[index + 1]; // Skip the first td for time
+            if (title === doc["Classroom"]) {
+              td.textContent = `${doc["Teacher"] || "N/A"} / ${
+                doc["Course"] || "N/A"
+              }`;
+            }
+          });
+
+          tbody.appendChild(tr);
+        });
+
+        table.appendChild(thead);
+        table.appendChild(tbody);
+
+        // replace the existing table with the new one
+        const existingTable = document.getElementById("timetable");
+        if (existingTable) {
+          existingTable.parentNode.replaceChild(table, existingTable);
+        } else {
+          document.body.appendChild(table);
+        }
+      }
+      
+      
+      document.getElementById('sign-out').onclick = () => {
+          auth.signOut()
+            .then(() => {
+              // Signed out
+              console.log('User signed out');
+              window.location.href = "index.html";
+
+            })
+            
+        }       
+        document.addEventListener('DOMContentLoaded', function(){
+    // 获取当前日期
+    function getCurrentDate() {
+      var today = new Date();
+      var year = today.getFullYear();
+      var month = String(today.getMonth() + 1).padStart(2, '0');
+      var day = String(today.getDate()).padStart(2, '0');
+      return year + '-' + month + '-' + day;
+    }
+
+    // 更新下拉菜单内容
+    function updateDropdown() {
+      var dropdownMenu = document.querySelector('.dropdown-menu');
+      dropdownMenu.innerHTML = ''; // 清空原有内容
+      // 添加新的日期选项
+      for (var i = 0; i < 7; i++) { // 这里假设添加最近7天的日期
+        var date = new Date();
+        date.setDate(date.getDate() - i);
+        var formattedDate = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
+        var dropdownItem = document.createElement('li');
+        dropdownItem.classList.add('dropdown-item');
+        dropdownItem.innerHTML = '<a class="dropdown-item" href="#">' + formattedDate + '</a>';
+        dropdownMenu.appendChild(dropdownItem);
+      }
+    }
+
+    // 初始化下拉菜单
+    updateDropdown();
+
+    // 添加点击事件处理程序，您可以在选择日期时执行相应的操作
+    document.querySelector('.dropdown-menu').addEventListener('click', function(event){
+      var selectedDate = event.target.textContent;
+      document.querySelector('#dateDropdown').textContent = selectedDate;
+      // 在此处执行选择日期后的操作
+    });
+
+    // 每次页面加载时更新下拉菜单
+    setInterval(function(){
+      updateDropdown();
+    }, 60000); // 每分钟更新一次，您可以根据需要调整更新频率
+  });
     </script>
+    
   </body>
 </html>

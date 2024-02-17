@@ -1,9 +1,13 @@
+
+  
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+
 
 /*標頭填灰*/
 th, td {
@@ -54,6 +58,10 @@ body {
     border-radius: 4px;
     cursor: pointer;
 }
+
+
+
+
 
 
 
