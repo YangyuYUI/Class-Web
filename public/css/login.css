@@ -25,6 +25,7 @@
   padding: 15px;
   box-sizing: border-box;
   font-size: 14px;
+  border-radius: 5px;
 }
 .form button {
   font-family: "Roboto", sans-serif;
@@ -35,7 +36,6 @@
   border: 0;
   padding: 15px;
   color: #FFFFFF;
-  font-size: 14px;
   -webkit-transition: all 0.3 ease;
   transition: all 0.3 ease;
   cursor: pointer;
