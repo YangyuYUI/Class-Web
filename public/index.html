@@ -90,7 +90,9 @@
                 class="dropdown-menu"
                 id="dateDropdown"
                 aria-labelledby="dropdownMenuButton1"
-              ></ul>
+              >
+                <li>選項 1</li>
+              </ul>
             </div>
           </div>
         </div>
@@ -118,6 +120,7 @@
       const firestore = firebase.firestore();
       const collection = firestore.collection("classroom");
 
+      
       const today = new Date();
       const todayYear = today.getFullYear();
       const todayMonth = today.getMonth() + 1; // 月份从 0 开始，所以要加 1
@@ -241,15 +244,20 @@
           var day = String(today.getDate()).padStart(2, "0");
           return year + "-" + month + "-" + day;
         }
+
         // 更新下拉菜单内容
         function updateDropdown() {
           var dropdownMenu = document.querySelector(".dropdown-menu");
           dropdownMenu.innerHTML = ""; // 清空原有内容
           // 添加新的日期选项
-          for (var i = 0; i < 7; i++) {
+          for (var i = 0; i < 31; i++) {
             // 这里假设添加最近7天的日期
-            var date = new Date();
-            date.setDate(date.getDate() + i);
+
+            //TODO This is for test
+            var timestamp = 1708099200;
+            var date = new Date(timestamp * 1000);
+            //var date = new Date();
+            //date.setDate(date.getDate() + i);
             var formattedDate =
               date.getFullYear() +
               "-" +
@@ -265,9 +273,30 @@
         }
 
         // 初始化下拉菜单
+
+        var selection = document.getElementById("dropdown-menu");
+        function select() {
+          alert(selection.selectedOptions[0].value);
+        }
         updateDropdown();
 
-        // 添加点击事件处理程序，您可以在选择日期时执行相应的操作
+
+        document
+          .querySelector(".dropdown-menu")
+          .addEventListener("click", function (event) {
+            var target = event.target || event.srcElement;
+            //選擇後操作
+            var timestamp = 1708099200;
+            var date = new Date(timestamp * 1000);
+            console.log(date.getTime());
+            
+            alert(event.target.innerHTML);
+          });
+          
+
+        
+        
+          // 點及後處理
         document
           .querySelector(".dropdown-menu")
           .addEventListener("click", function (event) {
@@ -275,7 +304,16 @@
             //document.querySelector('#dateDropdown').textContent = selectedDate;
 
             //選擇後操作
-            console.log(docdate);
+
+            var selection = document.getElementById("dropdown-menu");
+            function select() {
+              alert(selection.options[selection.selectedIndex].value);
+            }
+            var timestamp = 1708099200;
+            var date = new Date(timestamp * 1000);
+            console.log(date.getTime());
+            console.log(date);
+            
           });
 
         setInterval(function () {
