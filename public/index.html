@@ -31,8 +31,9 @@
   </head>
 
   <body>
-    <div class="website d-md-none">響應式斷點測試;</div>
+    
     <div class="hidden-on-print">
+      <div class="website d-md-none">響應式斷點測試;</div>
       <h1 class="visually-hidden">課表首頁</h1>
       <div class="container-fluid p-0">
         <header
@@ -98,48 +99,25 @@
         </div>
       </div>
     </div>
+    <div id="courseTable"></div>
 
     <!-- Display Firestore data -->
     <div id="firestore-data"></div>
 
     <script type="module">
       // Your web app's Firebase configuration
-      const firebaseConfig = {
-        apiKey: "AIzaSyCwzvhGZlpxlVV32iMO6m9eL0fAsRiRisU",
-        authDomain: "tlrca-75fc9.firebaseapp.com",
-        projectId: "tlrca-75fc9",
-        storageBucket: "tlrca-75fc9.appspot.com",
-        messagingSenderId: "841216398641",
-        appId: "1:841216398641:web:b2a4253470657a117f0c10",
-      };
-
-      // Initialize Firebase
-      firebase.initializeApp(firebaseConfig);
-
-      // Reference to Firestore collection
-      const firestore = firebase.firestore();
-      const collection = firestore.collection("classroom");
-
-      
-      const today = new Date();
-      const todayYear = today.getFullYear();
-      const todayMonth = today.getMonth() + 1; // 月份从 0 开始，所以要加 1
-      const todayDate = today.getDate();
-
-      // Real-time listener for Firestore data changes
-      collection.onSnapshot((snapshot) => {
-        onCourseData(
-          snapshot.docs.map((doc) => {
-            return doc.data();
-          })
-        );
-      });
+      import { auth, getCourses, addCourse, deleteCourse } from "./api.js";
+      const firestoreDataDiv = document.getElementById("firestore-data");
 
       // Code here
-      function onCourseData(docs) {
-        const firestoreDataDiv = document.getElementById("firestore-data");
+      getCourses().then((docs) => {
+        const today = new Date();
+        createTable(docs, today);
+      });
+
+      function createTable(docs, today) {
         // default data
-        firestoreDataDiv.innerHTML = JSON.stringify(docs, null, 4);
+        //firestoreDataDiv.innerHTML = JSON.stringify(docs, null, 4);
 
         // create table
         const table = document.createElement("table");
@@ -179,6 +157,9 @@
           const sections = doc["Sections"] || [];
           const time = sections.length > 0 ? sections[0] : "N/A";
 
+          const todayYear = today.getFullYear();
+          const todayMonth = today.getMonth() + 1; // 月份从 0 开始，所以要加 1
+          const todayDate = today.getDate();
           // 检查日期是否为今天
           const docDate = new Date(doc["Date"].seconds * 1000);
           const docYear = docDate.getFullYear();
@@ -231,19 +212,18 @@
         if (existingTable) {
           existingTable.parentNode.replaceChild(table, existingTable);
         } else {
-          document.body.appendChild(table);
+          document.getElementById("courseTable").appendChild(table);
         }
       }
-
       document.addEventListener("DOMContentLoaded", function () {
-        // 获取当前日期
-        function getCurrentDate() {
-          var today = new Date();
-          var year = today.getFullYear();
-          var month = String(today.getMonth() + 1).padStart(2, "0");
-          var day = String(today.getDate()).padStart(2, "0");
-          return year + "-" + month + "-" + day;
-        }
+        // get current date
+        // function getCurrentDate() {
+        //   var today = new Date();
+        //   var year = today.getFullYear();
+        //   var month = String(today.getMonth() + 1).padStart(2, "0");
+        //   var day = String(today.getDate()).padStart(2, "0");
+        //   return year + "-" + month + "-" + day;
+        // }
 
         // 更新下拉菜单内容
         function updateDropdown() {
@@ -254,14 +234,14 @@
             // 这里假设添加最近7天的日期
 
             //TODO This is for test
-            var timestamp = 1708099200;
-            var date = new Date(timestamp * 1000);
-            //var date = new Date();
-            //date.setDate(date.getDate() + i);
+            // var timestamp = 1708099200;
+            // var date = new Date(timestamp * 1000);
+            var date = new Date();
+            date.setDate(date.getDate() + i);
             var formattedDate =
               date.getFullYear() +
               "-" +
-              String(date.getMonth() + 1).padStart(2, "0") +
+              String(date.getMonth()).padStart(2, "0") +
               "-" +
               String(date.getDate()).padStart(2, "0");
             var dropdownItem = document.createElement("li");
@@ -273,47 +253,33 @@
         }
 
         // 初始化下拉菜单
-
-        var selection = document.getElementById("dropdown-menu");
-        function select() {
-          alert(selection.selectedOptions[0].value);
-        }
         updateDropdown();
 
-
-        document
-          .querySelector(".dropdown-menu")
-          .addEventListener("click", function (event) {
-            var target = event.target || event.srcElement;
-            //選擇後操作
-            var timestamp = 1708099200;
-            var date = new Date(timestamp * 1000);
-            console.log(date.getTime());
-            
-            alert(event.target.innerHTML);
-          });
-          
-
-        
-        
-          // 點及後處理
+        // 點及後處理
         document
           .querySelector(".dropdown-menu")
           .addEventListener("click", function (event) {
             var selectedDate = event.target.textContent;
+
+            alert(event.target.innerHTML);
             //document.querySelector('#dateDropdown').textContent = selectedDate;
 
-            //選擇後操作
+            //選擇後操作~~~~~~~~~~~~~~~~~~
+            getCourses().then((docs) => {
+              const element = document.getElementById("courseTable");
+              element.innerHTML = "";
+
+              // var timestamp = 1607110465663
+              // var date = new Date(timestamp);
+              const today = Date.parse(event.target.innerHTML);
+              const date = new Date(today);
+              createTable(docs, date);
+            });
 
             var selection = document.getElementById("dropdown-menu");
             function select() {
               alert(selection.options[selection.selectedIndex].value);
             }
-            var timestamp = 1708099200;
-            var date = new Date(timestamp * 1000);
-            console.log(date.getTime());
-            console.log(date);
-            
           });
 
         setInterval(function () {
