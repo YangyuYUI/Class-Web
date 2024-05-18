@@ -35,13 +35,14 @@
     <div class="hidden-on-print">
       <div class="website d-md-none">響應式斷點測試;</div>
       <h1 class="visually-hidden">課表首頁</h1>
+      <!-- Navbar -->
       <div class="container-fluid p-0">
         <header
-          class="d-flex flex-wrap justify-content-center py-3 mb-8 bg-dark border-bottom"
+          class="d-flex flex-wrap justify-content-between py-3 mb-8 bg-dark border-bottom"
         >
           <a
             href="/"
-            class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none"
+            class="d-flex align-items-center text-dark text-decoration-none"
           >
             <img
               class="bi me-2"
@@ -52,31 +53,30 @@
             />
             <span class="fs-4 text-white">課表首頁</span>
           </a>
-
-          <button
-            type="button"
-            class="btn btn-light me-2"
-            onclick="window.location.href = 'about.html'"
-          >
-            關於
-          </button>
-          <button
-            type="button"
-            class="btn btn-light me-2"
-            onclick="window.location.href = 'login.html'"
-          >
-            登入
-          </button>
+          <div>
+            <button
+              type="button"
+              class="btn btn-light me-2"
+              onclick="window.location.href = 'about.html'"
+            >
+              關於
+            </button>
+            <button
+              type="button"
+              class="btn btn-light me-2"
+              onclick="window.location.href = 'login.html'"
+            >
+              登入
+            </button>
+          </div>
         </header>
       </div>
-
-      <div class="date">
-        <div class="container-fluid p-0">
-          <div class="row align-items-start">
-            <div class="col-md-10 text-end">
+      <!-- Date picker -->
+        <div class="container-fluid p-2 d-flex flex-row justify-content-end">
+            <div class="mx-2">
+              <span class="fs-4">選擇課表日期:</span>
             </div>
-            <div class="col">
-              <h4>選擇課表日期:</h4>
+            <div>
               <button
                 class="btn btn-secondary dropdown-toggle"
                 href="#"
@@ -94,9 +94,7 @@
               >
                 <li>選項 1</li>
               </ul>
-              
             </div>
-          </div>
         </div>
       </div>
     </div>
