@@ -20,6 +20,13 @@
       integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8"
       crossorigin="anonymous"
     ></script>
+    <style>
+      @media screen and (max-width: 767px) {
+        .form {
+          box-shadow: None !important;
+        }
+      }
+    </style>
   </head>
   <body>
     <h1 class="visually-hidden">課表首頁</h1>
@@ -64,14 +71,14 @@
       <div class="form">
         <h1 class="text-dark mb-4">請登入</h1>
         <input
-          class="rounded-2 p-3"
+          class="mb-3 form-control"
           type="text"
           name="username"
           placeholder="帳號"
           id="username"
         />
         <input
-          class="rounded-2 p-3"
+          class="mb-3 form-control"
           type="password"
           name="password"
           placeholder="密碼"
@@ -82,7 +89,7 @@
           type="submit"
           value="Sign in"
           id="signIn"
-          class="btn btn-light fs-5 p-2 rounded-2"
+          class="btn btn-primary w-100 mb-3"
         >
           登入
         </button>
