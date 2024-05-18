@@ -2,94 +2,248 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <!--滿屏加載-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>課表</title>
-    <link rel="stylesheet" type="text/css" href="css\form.css" />
+    <title>陪伴者課表系統</title>
+
     <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-firestore.js"></script>
-    
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
-</head>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- /<script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8"
+      crossorigin="anonymous"
+    ></script> -->
+    <link rel="stylesheet" type="text/css" href="css/form.css" />
+    <style>
+      @media print {
+        .hidden-on-print {
+          display: none !important;
+        }
+      }
+    </style>
+  </head>
+
   <body>
-    <h1 class="visually-hidden">表格編輯</h1>
-      <div class="container-fluid">
-        <header class="d-flex flex-wrap justify-content-center py-3 mb-8 border-bottom">
-          <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-            <img class="bi me-2" width="40" height="32"><use xlink:href="logo.png"/></svg>
-            <span class="fs-4">表格編輯</span>
+    <div class="hidden-on-print">
+      <div class="website d-md-none">響應式斷點測試;</div>
+      <h1 class="visually-hidden">課表編輯</h1>
+      <div class="container-fluid p-0">
+        <header
+          class="d-flex flex-wrap justify-content-center py-3 mb-8 bg-dark border-bottom"
+        >
+          <a
+            href="/"
+            class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none"
+          >
+            <img
+              class="bi me-2"
+              width="40"
+              height="32"
+              src="logo.png"
+              alt="Logo"
+            />
+            <span class="fs-4 text-white">課表編輯</span>
           </a>
-    
-          <ul class="nav nav-pills">
-            <!-- <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">首頁</a></li>-->
-            <button type="button" class="btn btn-outline-primary me-1" onclick="window.location.href = 'about.html'">關於</button>
-            <!--<div id="sign-out">
-              <button id="signOutButton">Sign Out</button>
-            </div>-->
-            <button id="sign-out" type="button" class="btn btn-outline-primary">登出</button>
-            
-            
-          </ul>
+
+          <button
+            type="button"
+            class="btn btn-light me-2"
+            onclick="window.location.href = 'about.html'"
+          >
+            關於
+          </button>
+          <button
+            type="button"
+            class="btn btn-light me-2"
+            onclick="window.location.href = 'login.html'"
+            id="signOutButton"
+          >
+            登出
+          </button>
         </header>
       </div>
+
       <div class="date">
         <div class="container-fluid p-0">
           <div class="row align-items-start">
             <div class="col-md-10 text-end">
               <h4>選擇課表日期:</h4>
-            </div>  
+            </div>
             <div class="col">
-            <button class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-              選擇日期
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
+              <button
+                class="btn btn-secondary dropdown-toggle"
+                href="#"
+                role="button"
+                id="dropdownMenuLink"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                選擇日期
+              </button>
+              <ul
+                class="dropdown-menu"
+                id="dateDropdown"
+                aria-labelledby="dropdownMenuButton1"
+              >
+                <li>選項 1</li>
+              </ul>
+            </div>
           </div>
-               
-        </div> 
+          <!-- <button id="addCourseButton" class="btn btn-secondary">
+            addCouse
+          </button> -->
+
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+            data-bs-whatever="教室1"
+          >
+            新增課程
+          </button>
+          <div
+            class="modal fade"
+            id="exampleModal"
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">
+                    New message
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="mb-3">
+                      <label for="recipient-name" class="col-form-label"
+                        >教室</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="classinput1"
+                      />
+
+                      <div class="dropdown">
+                        <button
+                          class="btn btn-secondary dropdown-toggle"
+                          href="#"
+                          role="button"
+                          id="dropdownclass"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          選擇教室:
+                        </button>
+
+                        <ul
+                          class="dropdown-menu"
+                          aria-labelledby="classdropdownButton"
+                          id="dropdownmenuclass"
+                        >
+                          <li><a class="dropdown-item" href="#">教室1</a></li>
+                          <li><a class="dropdown-item" href="#">教室2</a></li>
+                          <li><a class="dropdown-item" href="#">教室3</a></li>
+                          <li><a class="dropdown-item" href="#">交誼廳</a></li>
+                          <li>
+                            <a class="dropdown-item" href="#">三能/線上</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <label for="recipient-name" class="col-form-label"
+                        >課程</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="classinput2"
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label for="recipient-name" class="col-form-label"
+                        >老師</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="classinput3"
+                      />
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    id="addCourseButton"
+                  >
+                    Send message
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="login-form">
+            <label for="docId">docId:</label>
+            <input type="text" id="docId" required />
+            <button id="deleteButton" class="btn btn-secondary">delete</button>
+          </div>
         </div>
-
-        
       </div>
-    
-    
-   
+    </div>
+    <div id="courseTable"></div>
 
-    
+    <!-- Display Firestore data -->
+    <div id="firestore-data"></div>
 
     <script type="module">
-      
-      //import { createApp, ref } from 'vue'
-      // TODO: Add SDKs for Firebase products that you want to use
-      // https://firebase.google.com/docs/web/setup#available-libraries
-
       // Your web app's Firebase configuration
-      
+      import { auth, getCourses, addCourse, deleteCourse } from "./api.js";
 
-      import { auth, getCourses, addCourse, deleteCourse } from "./api.js"
+      import {} from "./js/auth.js";
 
-      
-      // Reference to Firestore collection
-      const firestore = firebase.firestore();
-      const collection = firestore.collection("classroom");
-
-      // Real-time listener for Firestore data changes
-      collection.onSnapshot((snapshot) => {
-        onCourseData(
-          snapshot.docs.map((doc) => {
-            return doc.data();
-          })
-        );
-      });
+      const firestoreDataDiv = document.getElementById("firestore-data");
 
       // Code here
-      function onCourseData(docs) {
-        const firestoreDataDiv = document.getElementById("firestore-data");
+
+      getCourses().then((docs) => {
+        const today = new Date();
+        createTable(docs, today);
+      });
+
+      function createTable(docs, today) {
         // default data
         //firestoreDataDiv.innerHTML = JSON.stringify(docs, null, 4);
 
@@ -101,9 +255,9 @@
         // define type tr表格行/th單個 粗體/td可與tbody/footu一起
         const titles = [
           "時間/教室",
-          "教室一",
-          "教室二",
-          "教室三",
+          "教室1",
+          "教室2",
+          "教室3",
           "交誼廳",
           "三能/線上",
         ];
@@ -131,9 +285,22 @@
           const sections = doc["Sections"] || [];
           const time = sections.length > 0 ? sections[0] : "N/A";
 
-          // Check if a row with this time already exists
+          const todayYear = today.getFullYear();
+          const todayMonth = today.getMonth() + 1; // 月份从 0 开始，所以要加 1
+          const todayDate = today.getDate();
+          // 檢查日期
+          const docDate = new Date(doc["Date"].seconds * 1000);
+          const docYear = docDate.getFullYear();
+          const docMonth = docDate.getMonth() + 1;
+          const docDay = docDate.getDate();
+          const isToday =
+            todayYear === docYear &&
+            todayMonth === docMonth &&
+            todayDate === docDay;
+
+          // Check if a row with this time already exists and the date is today
           let tr = timeRows[time];
-          if (!tr) {
+          if (!tr && isToday) {
             tr = document.createElement("tr");
             timeRows[time] = tr;
 
@@ -148,19 +315,23 @@
             });
           }
 
-          // Populate the cells for Classroom, Teacher, and Course
-          titles.slice(1).forEach((title, index) => {
-            const td = tr.children[index + 1]; // Skip the first td for time
-            if (title === doc["Classroom"]) {
-              td.textContent = `${doc["Teacher"] || "N/A"} / ${
-                doc["Course"] || "N/A"
-              }`;
-            }
-          });
+          // Populate the cells for Classroom, Teacher, and Course if the date is today
+          if (isToday) {
+            titles.slice(1).forEach((title, index) => {
+              const td = tr.children[index + 1]; // Skip the first td for time
+              if (title === doc["Classroom"]) {
+                td.textContent = `${doc["Teacher"] || "N/A"} / ${
+                  doc["Course"] || "N/A"
+                }`;
+              }
+            });
+          }
 
-          tbody.appendChild(tr);
+          if (isToday) {
+            tbody.appendChild(tr);
+          }
         });
-
+        table.innerHTML = "";
         table.appendChild(thead);
         table.appendChild(tbody);
 
@@ -169,63 +340,129 @@
         if (existingTable) {
           existingTable.parentNode.replaceChild(table, existingTable);
         } else {
-          document.body.appendChild(table);
+          document.getElementById("courseTable").appendChild(table);
         }
       }
-      
-      
-      document.getElementById('sign-out').onclick = () => {
-          auth.signOut()
-            .then(() => {
-              // Signed out
-              console.log('User signed out');
-              window.location.href = "index.html";
+      document.addEventListener("DOMContentLoaded", function () {
+        // 更新下拉菜单内容
+        function updateDropdown() {
+          var dropdownMenu = document.querySelector(".dropdown-menu");
+          dropdownMenu.innerHTML = ""; // 清空原有内容
 
-            })
-            
-        }       
-        document.addEventListener('DOMContentLoaded', function(){
-    // 获取当前日期
-    function getCurrentDate() {
-      var today = new Date();
-      var year = today.getFullYear();
-      var month = String(today.getMonth() + 1).padStart(2, '0');
-      var day = String(today.getDate()).padStart(2, '0');
-      return year + '-' + month + '-' + day;
-    }
+          // 添加新的日期选项
+          for (var i = 0; i < 31; i++) {
+            var date = new Date();
+            date.setDate(date.getDate() - i);
+            var formattedDate =
+              date.getFullYear() +
+              "-" +
+              String(date.getMonth()).padStart(2, "0") +
+              "-" +
+              String(date.getDate()).padStart(2, "0");
+            var dropdownItem = document.createElement("li");
+            dropdownItem.classList.add("dropdown-item");
+            dropdownItem.innerHTML =
+              '<a class="dropdown-item" href="#">' + formattedDate + "</a>";
+            dropdownMenu.appendChild(dropdownItem);
+          }
+        }
 
-    // 更新下拉菜单内容
-    function updateDropdown() {
-      var dropdownMenu = document.querySelector('.dropdown-menu');
-      dropdownMenu.innerHTML = ''; // 清空原有内容
-      // 添加新的日期选项
-      for (var i = 0; i < 7; i++) { // 这里假设添加最近7天的日期
-        var date = new Date();
-        date.setDate(date.getDate() - i);
-        var formattedDate = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
-        var dropdownItem = document.createElement('li');
-        dropdownItem.classList.add('dropdown-item');
-        dropdownItem.innerHTML = '<a class="dropdown-item" href="#">' + formattedDate + '</a>';
-        dropdownMenu.appendChild(dropdownItem);
-      }
-    }
+        // 初始化下拉菜单
+        updateDropdown();
+        // 點及後處理
+        document
+          .querySelector("#dateDropdown")
+          .addEventListener("click", function (event) {
+            var selectedDate = event.target.textContent;
 
-    // 初始化下拉菜单
-    updateDropdown();
+            alert(event.target.innerHTML);
+            var dropdownButton = document.getElementById("dropdownMenuLink");
+            // 選取下拉選單元素
+            var selection = document.getElementById("dateDropdown");
+            // 確認選中的選項索引，並將對應的值設置為下拉選單按鈕的文字內容
+            dropdownButton.textContent = event.target.innerHTML;
+            console.log("顯示日期已更新");
+            //document.querySelector('#dateDropdown').textContent = selectedDate;
 
-    // 添加点击事件处理程序，您可以在选择日期时执行相应的操作
-    document.querySelector('.dropdown-menu').addEventListener('click', function(event){
-      var selectedDate = event.target.textContent;
-      document.querySelector('#dateDropdown').textContent = selectedDate;
-      // 在此处执行选择日期后的操作
-    });
+            getCourses().then((docs) => {
+              const element = document.getElementById("courseTable");
+              element.innerHTML = "";
 
-    // 每次页面加载时更新下拉菜单
-    setInterval(function(){
-      updateDropdown();
-    }, 60000); // 每分钟更新一次，您可以根据需要调整更新频率
-  });
+              const today = Date.parse(event.target.innerHTML);
+              const date = new Date(today);
+              createTable(docs, date);
+            });
+
+            var selection = document.getElementById("dropdown-menu");
+          });
+
+        setInterval(function () {
+          updateDropdown();
+        }, 600000);
+      });
+
+      document
+        .querySelector("#dropdownmenuclass")
+        .addEventListener("click", function (event) {
+          var selectedClass = event.target.textContent;
+          var dropdownButton = document.getElementById("dropdownclass");
+          // 選取下拉選單元素
+          var selection = document.getElementById("dropdownmenuclass");
+          // 確認選中的選項索引，並將對應的值設置為下拉選單按鈕的文字內容
+          dropdownButton.textContent = event.target.innerHTML;
+        });
+
+      document.getElementById("addCourseButton").onclick = () => {
+        console.log("HI");
+        const classinput1 = document.getElementById("classinput1");
+        console.log(classinput1.value);
+        const classinput2 = document.getElementById("classinput2");
+        console.log(classinput2.value);
+        const classinput3 = document.getElementById("classinput3");
+        console.log(classinput3.value);
+
+        addCourse(
+          new Date(2024, 2, 17),
+          classinput1.value,
+          classinput2.value,
+          ["09:00 - 09:30"],
+          classinput3.value
+        )
+          .then(function () {
+            console.log("Document successfully written!");
+          })
+          .catch(function (error) {
+            console.error("Error writing document: ", error);
+          });
+      };
+
+      document.getElementById("deleteButton").onclick = () => {
+        const docId = document.getElementById("docId").value;
+        deleteCourse(docId)
+          .then(() => {
+            console.log("Document successfully deleted!");
+          })
+          .catch((error) => {
+            console.error("Error deleting document: ", error);
+          });
+      };
+
+      var exampleModal = document.getElementById("exampleModal");
+      exampleModal.addEventListener("show.bs.modal", function (event) {
+        // Button that triggered the modal
+        var button = event.relatedTarget;
+        // Extract info from data-bs-* attributes
+        var recipient = button.getAttribute("data-bs-whatever");
+        // If necessary, you could initiate an AJAX request here
+        // and then do the updating in a callback.
+        //
+        // Update the modal's content.
+        var modalTitle = exampleModal.querySelector(".modal-title");
+        var modalBodyInput = exampleModal.querySelector(".modal-body input");
+
+        modalTitle.textContent = "New message to " + recipient;
+        modalBodyInput.value = recipient;
+      });
     </script>
-    
   </body>
 </html>
