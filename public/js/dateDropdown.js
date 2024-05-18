@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var dropdownMenu = document.querySelector(".dropdown-menu");
     dropdownMenu.innerHTML = ""; // 清空原有内容
     // 添加新的日期选项
-    for (var i = 0; i < 31; i++) {
+    for (var i = 0; i < 61; i++) {
       // 这里假设添加最近7天的日期
 
       //TODO This is for test
