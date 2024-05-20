@@ -37,7 +37,7 @@
 
   <body>
     <div class="hidden-on-print">
-      <div class="website d-md-none">響應式斷點測試;</div>
+      <!-- <div class="website d-md-none">響應式斷點測試;</div> -->
       <h1 class="visually-hidden">課表編輯</h1>
       <div class="container-fluid p-0">
         <header
@@ -110,10 +110,10 @@
             class="btn btn-primary"
             data-bs-toggle="modal"
             data-bs-target="#exampleModal"
-            data-bs-whatever="教室1"
           >
             新增課程
           </button>
+          <!-- data-bs-whatever="教室" -->
           <div
             class="modal fade"
             id="exampleModal"
@@ -125,7 +125,7 @@
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="exampleModalLabel">
-                    New message
+                    請填入課程資料
                   </h5>
                   <button
                     type="button"
@@ -140,19 +140,14 @@
                       <label for="recipient-name" class="col-form-label"
                         >教室</label
                       >
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="classinput1"
-                      />
 
                       <div class="dropdown">
                         <button
                           class="btn btn-secondary dropdown-toggle"
                           href="#"
                           role="button"
-                          id="dropdownclass"
-                          id="classinput1"
+                          
+                          id="classDropdownButton"
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
                         >
@@ -168,9 +163,9 @@
                           <li><a class="dropdown-item" href="#">教室2</a></li>
                           <li><a class="dropdown-item" href="#">教室3</a></li>
                           <li><a class="dropdown-item" href="#">交誼廳</a></li>
-                          <li><a class="dropdown-item" href="#">三能/線上</a></li>
-                            
-                          
+                          <li>
+                            <a class="dropdown-item" href="#">三能/線上</a>
+                          </li>
                         </ul>
                       </div>
                     </div>
@@ -202,14 +197,14 @@
                     class="btn btn-secondary"
                     data-bs-dismiss="modal"
                   >
-                    Close
+                    關閉
                   </button>
                   <button
                     type="button"
                     class="btn btn-primary"
                     id="addCourseButton"
                   >
-                    Send message
+                    提交資料
                   </button>
                 </div>
               </div>
@@ -234,27 +229,22 @@
       import { auth, getCourses, addCourse, deleteCourse } from "./api.js";
 
       import {} from "./js/auth.js";
+      import { createTable } from "./js/courseTable.js";
+      import {} from "./js/dateDropDown.js";
 
       const firestoreDataDiv = document.getElementById("firestore-data");
 
       // Code here
-
       getCourses().then((docs) => {
         const today = new Date();
         createTable(docs, today);
       });
 
-      import { createTable } from "./js/courseTable.js"
-      import {} from "./js/dateDropDown.js"
-      
-      
-
-
       document
         .querySelector("#dropdownmenuclass")
         .addEventListener("click", function (event) {
           var selectedClass = event.target.textContent;
-          var dropdownButton = document.getElementById("dropdownclass");
+          var dropdownButton = document.getElementById("classDropdownButton");
           // 選取下拉選單元素
           var selection = document.getElementById("dropdownmenuclass");
           // 確認選中的選項索引，並將對應的值設置為下拉選單按鈕的文字內容
@@ -262,17 +252,16 @@
         });
 
       document.getElementById("addCourseButton").onclick = () => {
-        console.log("HI");
-        const classinput1 = document.getElementById("classinput1");
-        console.log(classinput1.value);
+        const classinput1 = document.getElementById("classDropdownButton").textContent;
+        console.log(classinput1);
         const classinput2 = document.getElementById("classinput2");
         console.log(classinput2.value);
         const classinput3 = document.getElementById("classinput3");
         console.log(classinput3.value);
 
         addCourse(
-          new Date(2024, 2, 17),
-          classinput1.value,
+          new Date(2024, 4, 17),
+          classinput1,
           classinput2.value,
           ["09:00 - 09:30"],
           classinput3.value
@@ -298,14 +287,8 @@
 
       var exampleModal = document.getElementById("exampleModal");
       exampleModal.addEventListener("show.bs.modal", function (event) {
-        // Button that triggered the modal
         var button = event.relatedTarget;
-        // Extract info from data-bs-* attributes
         var recipient = button.getAttribute("data-bs-whatever");
-        // If necessary, you could initiate an AJAX request here
-        // and then do the updating in a callback.
-        //
-        // Update the modal's content.
         var modalTitle = exampleModal.querySelector(".modal-title");
         var modalBodyInput = exampleModal.querySelector(".modal-body input");
 
@@ -315,3 +298,26 @@
     </script>
   </body>
 </html>
+
+
+
+
+
+<!-- document
+        .querySelector("#dropdownmenuclass")
+        .addEventListener("click", function (event) {
+          var selectedClass = event.target.textContent;
+          var dropdownButton = document.getElementById("dropdownclass");
+          // 選取下拉選單元素
+          var selection = document.getElementById("dropdownmenuclass");
+          // 確認選中的選項索引，並將對應的值設置為下拉選單按鈕的文字內容
+          dropdownButton.textContent = event.target.innerHTML;
+        });
+
+      document.getElementById("addCourseButton").onclick = () => {
+        const classinput1 = document.getElementById("classDropdownButton").textContent;
+        console.log(classinput1);
+        const classinput2 = document.getElementById("classinput2");
+        console.log(classinput2.value);
+        const classinput3 = document.getElementById("classinput3");
+        console.log(classinput3.value); -->
