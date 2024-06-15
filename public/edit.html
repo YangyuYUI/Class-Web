@@ -212,6 +212,58 @@
             </div>
           </div>
 
+          <!-- Button trigger modal -->
+<button
+type="button"
+class="btn btn-primary"
+data-bs-toggle="modal"
+data-bs-target="#deleteModal"
+id = "delete"
+>
+DELETE
+</button>
+
+<!-- Modal -->
+<div
+class="modal fade"
+id="deleteModal"
+tabindex="-1"
+aria-labelledby="deleteModalLabel"
+aria-hidden="true"
+>
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="deleteModalLabel">刪除課程</h5>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <div id= "course-list"></div>
+
+      
+    <button type="button" class="btn btn-primary" id="deleteCourse">刪除</button>
+    
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+        Close
+      </button>
+      <button type="button" class="btn btn-primary">關閉視窗</button>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+
+         
+
           <div id="login-form">
             <label for="docId">docId:</label>
             <input type="text" id="docId" required />
@@ -219,6 +271,10 @@
           </div>
         </div>
       </div>
+      
+
+
+
     </div>
     <div id="courseTable"></div>
 
@@ -296,7 +352,11 @@
       getCourses().then((docs) => {
         const today = new Date();
         createTable(docs, today);
+        // console.log(docs);
       });
+
+      
+      
 
       document
         .querySelector("#dropdownmenuclass")
@@ -344,18 +404,59 @@
           });
       };
 
-      var exampleModal = document.getElementById("exampleModal");
-      exampleModal.addEventListener("show.bs.modal", function (event) {
-        var button = event.relatedTarget;
-        var recipient = button.getAttribute("data-bs-whatever");
-        var modalTitle = exampleModal.querySelector(".modal-title");
-        var modalBodyInput = exampleModal.querySelector(".modal-body input");
 
-        modalTitle.textContent = "New message to " + recipient;
-        modalBodyInput.value = recipient;
-      });
+      
+      document.getElementById('delete').onclick = () => {
+        getCourses().then((docs) => {
+
+        console.log(docs)
+
+        
+        const courseListDiv = document.getElementById('course-list');
+        courseListDiv.innerHTML = "";
+
+        docs.forEach((doc) => {
+          const courseDiv = document.createElement('div');
+          courseDiv.classList.add('course-item');
+
+          const courseDate = new Date(doc.Date.seconds * 1000); // 假設日期是Firestore的Timestamp
+          const formattedDate = courseDate.toLocaleDateString();
+
+          courseDiv.textContent = `${doc["Teacher"] || "N/A"} / ${
+                  doc["Course"] || "N/A" }  /  ${
+                  doc["Classroom"] || "N/A" }`;
+          
+          
+
+          courseListDiv.appendChild(courseDiv);
+        });
+        })}
+     
+
+
+
+
+
+
+
+
+      
+
+
+
+      // var exampleModal = document.getElementById("exampleModal");
+      // exampleModal.addEventListener("show.bs.modal", function (event) {
+      //   var button = event.relatedTarget;
+      //   var recipient = button.getAttribute("data-bs-whatever");
+      //   var modalTitle = exampleModal.querySelector(".modal-title");
+      //   var modalBodyInput = exampleModal.querySelector(".modal-body input");
+
+      //   modalTitle.textContent = "New message to " + recipient;
+      //   modalBodyInput.value = recipient;
+
+
+
+      // });
     </script>
   </body>
 </html>
-
-<!-- https://codepen.io/lingkite/pen/MWmymqK -->
