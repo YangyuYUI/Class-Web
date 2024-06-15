@@ -246,7 +246,7 @@ aria-hidden="true"
       <div id= "course-list"></div>
 
       
-    <button type="button" class="btn btn-primary" id="deleteCourse">刪除</button>
+    <!-- <button type="button" class="btn btn-primary" id="deleteCourse">刪除</button> -->
     
     </div>
     <div class="modal-footer">
@@ -379,7 +379,7 @@ aria-hidden="true"
         
 
         addCourse(
-          new Date(2024, 5, 16),
+          new Date(2024, 5, 14),
           classinput1,
           classinput2.value,
           ["09:00 - 09:30"],
@@ -393,46 +393,57 @@ aria-hidden="true"
           });
       };
 
-      document.getElementById("deleteButton").onclick = () => {
-        const docId = document.getElementById("docId").value;
-        deleteCourse(docId)
-          .then(() => {
-            console.log("Document successfully deleted!");
-          })
-          .catch((error) => {
-            console.error("Error deleting document: ", error);
-          });
-      };
-
-
+     
+      // deleteButton.onclick = deleteCourseInModal();
       
       document.getElementById('delete').onclick = () => {
-        getCourses().then((docs) => {
-
-        console.log(docs)
-
+        deleteButton.onclick = deleteCourseInModal();}
         
-        const courseListDiv = document.getElementById('course-list');
-        courseListDiv.innerHTML = "";
-
-        docs.forEach((doc) => {
-          const courseDiv = document.createElement('div');
-          courseDiv.classList.add('course-item');
-
-          const courseDate = new Date(doc.Date.seconds * 1000); // 假設日期是Firestore的Timestamp
-          const formattedDate = courseDate.toLocaleDateString();
-
-          courseDiv.textContent = `${doc["Teacher"] || "N/A"} / ${
-                  doc["Course"] || "N/A" }  /  ${
-                  doc["Classroom"] || "N/A" }`;
-          
-          
-
-          courseListDiv.appendChild(courseDiv);
-        });
-        })}
+      
      
+        function deleteCourseInModal() {getCourses().then((docs) => {
 
+console.log(docs)
+const courseListDiv = document.getElementById('course-list');
+courseListDiv.innerHTML = "";
+
+docs.forEach((doc) => {
+  const courseDiv = document.createElement('div');
+  
+  courseDiv.classList.add('course-item');
+
+  const courseDate = new Date(doc.Date.seconds * 1000); // 假設日期是Firestore的Timestamp
+  const formattedDate = courseDate.toLocaleDateString();
+
+  courseDiv.textContent = `${formattedDate} | ${doc["Teacher"] || "N/A"} | ${
+          doc["Course"] || "N/A" }  |  ${
+          doc["Classroom"] || "N/A" }`;
+  courseListDiv.appendChild(courseDiv);
+
+  const deleteButton = document.createElement('button');
+ 
+  // console.log(Id)
+
+  deleteButton.textContent = '刪除';
+  deleteButton.classList.add('delete-button');
+  deleteButton.classList.add('btn');
+  deleteButton.classList.add('btn-secondary');
+  deleteButton.classList.add('btn-sm');
+
+  deleteButton.addEventListener('click', () => {const docId = doc["Id"];
+deleteCourse(docId)
+  .then(() => {
+    console.log("Document successfully deleted!");
+    deleteCourseInModal();
+
+  })
+  .catch((error) => {
+    console.error("Error deleting document: ", error);
+  });});
+courseDiv.appendChild(deleteButton);
+courseListDiv.appendChild(courseDiv);
+});
+})}
 
 
 
