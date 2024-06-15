@@ -26,7 +26,7 @@
       crossorigin="anonymous"
     ></script> -->
     <link rel="stylesheet" type="text/css" href="css/form.css" />
-    <link rel="stylesheet" type="text/css" href="css/footer.css"/>
+    <link rel="stylesheet" type="text/css" href="css/footer.css" />
     <style>
       @media print {
         .hidden-on-print {
@@ -147,7 +147,6 @@
                           class="btn btn-secondary dropdown-toggle"
                           href="#"
                           role="button"
-                          
                           id="classDropdownButton"
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
@@ -213,56 +212,55 @@
           </div>
 
           <!-- Button trigger modal -->
-<button
-type="button"
-class="btn btn-primary"
-data-bs-toggle="modal"
-data-bs-target="#deleteModal"
-id = "delete"
->
-DELETE
-</button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#deleteModal"
+            id="delete"
+          >
+            DELETE
+          </button>
 
-<!-- Modal -->
-<div
-class="modal fade"
-id="deleteModal"
-tabindex="-1"
-aria-labelledby="deleteModalLabel"
-aria-hidden="true"
->
-<div class="modal-dialog">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title" id="deleteModalLabel">刪除課程</h5>
-      <button
-        type="button"
-        class="btn-close"
-        data-bs-dismiss="modal"
-        aria-label="Close"
-      ></button>
-    </div>
-    <div class="modal-body">
-      <div id= "course-list"></div>
+          <!-- Modal -->
+          <div
+            class="modal fade"
+            id="deleteModal"
+            tabindex="-1"
+            aria-labelledby="deleteModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="deleteModalLabel">刪除課程</h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <div id="course-list"></div>
 
-      
-    <!-- <button type="button" class="btn btn-primary" id="deleteCourse">刪除</button> -->
-    
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-        Close
-      </button>
-      <button type="button" class="btn btn-primary">關閉視窗</button>
-    </div>
-  </div>
-</div>
-</div>
-
-
-
-
-         
+                  <!-- <button type="button" class="btn btn-primary" id="deleteCourse">刪除</button> -->
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button type="button" class="btn btn-primary">
+                    關閉視窗
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <div id="login-form">
             <label for="docId">docId:</label>
@@ -271,10 +269,6 @@ aria-hidden="true"
           </div>
         </div>
       </div>
-      
-
-
-
     </div>
     <div id="courseTable"></div>
 
@@ -284,44 +278,52 @@ aria-hidden="true"
           <div class="row">
             <div class="col-sm-12 col-md-6">
               <h6>關於陪伴者</h6>
-              <p class="text-justify">以下訊息為測試用皆可修改  暫時先空著</p>
+              <p class="text-justify">以下訊息為測試用皆可修改 暫時先空著</p>
             </div>
-  
+
             <div class="col-xs-6 col-md-3">
               <h6>捐款資訊</h6>
               <ul class="footer-links">
                 <li>戶名：社團法人陪伴者兒少生涯教育協會</li>
                 <li>銀行：上海商銀 松南分行 (代碼：011)</li>
                 <li>帳號：31102-0000-22460</li>
-                <li>郵政劃撥帳號：5019-5144 </li>
+                <li>郵政劃撥帳號：5019-5144</li>
                 <li>愛心碼：2631098</li>
-                </ul>
+              </ul>
             </div>
-  
+
             <div class="col-xs-6 col-md-3">
               <h6>聯絡我們</h6>
               <ul class="footer-links">
                 <li>服務時間：星期一至五 9:00~18:00</li>
-                <li>社團法人陪伴者兒少生涯教育協會</a></li>
-                <li>TEL：02-2325-9026</a></li>
+                <li>社團法人陪伴者兒少生涯教育協會</li>
+                <li>TEL：02-2325-9026</li>
                 <li>FAX：02-2325-6372</li>
                 <li>陪伴者實驗教育機構</li>
                 <li>TEL：02-2708-2776</li>
-                <li>地址：<a href="https://maps.app.goo.gl/gsEouxXhmVWZf6cr6" title="map" target="_blank" rel="noopener">10692台北市大安區信義路四段341號7樓之1</a></li>
+                <li>
+                  地址：<a
+                    href="https://maps.app.goo.gl/gsEouxXhmVWZf6cr6"
+                    title="map"
+                    target="_blank"
+                    rel="noopener"
+                    >10692台北市大安區信義路四段341號7樓之1</a
+                  >
+                </li>
               </ul>
             </div>
-  
           </div>
-          <hr>
+          <hr />
         </div>
         <div class="container p-1">
           <div class="row">
             <div class="col-md-8 col-sm-6 col-xs-12">
-              <p class="copyright-text">Copyright &copy; 2024 
-           <a href="https://www.mentors.org.tw/">陪伴者兒少生涯教育協會</a>
+              <p class="copyright-text">
+                Copyright &copy; 2024
+                <a href="https://www.mentors.org.tw/">陪伴者兒少生涯教育協會</a>
               </p>
             </div>
-  
+
             <!-- <div class="col-md-4 col-sm-6 col-xs-12">
               <ul class="social-icons">
                 <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
@@ -332,7 +334,7 @@ aria-hidden="true"
             </div> -->
           </div>
         </div>
-    </footer>
+      </footer>
     </div>
 
     <!-- Display Firestore data -->
@@ -355,9 +357,6 @@ aria-hidden="true"
         // console.log(docs);
       });
 
-      
-      
-
       document
         .querySelector("#dropdownmenuclass")
         .addEventListener("click", function (event) {
@@ -370,13 +369,14 @@ aria-hidden="true"
         });
 
       document.getElementById("addCourseButton").onclick = () => {
-        const classinput1 = document.getElementById("classDropdownButton").textContent;
+        const classinput1 = document.getElementById(
+          "classDropdownButton"
+        ).textContent;
         console.log(classinput1);
         const classinput2 = document.getElementById("classinput2");
         console.log(classinput2.value);
         const classinput3 = document.getElementById("classinput3");
         console.log(classinput3.value);
-        
 
         addCourse(
           new Date(2024, 5, 14),
@@ -393,67 +393,57 @@ aria-hidden="true"
           });
       };
 
-     
       // deleteButton.onclick = deleteCourseInModal();
-      
-      document.getElementById('delete').onclick = () => {
-        deleteButton.onclick = deleteCourseInModal();}
-        
-      
-     
-        function deleteCourseInModal() {getCourses().then((docs) => {
 
-console.log(docs)
-const courseListDiv = document.getElementById('course-list');
-courseListDiv.innerHTML = "";
+      document.getElementById("delete").onclick = () => {
+        deleteButton.onclick = deleteCourseInModal();
+      };
 
-docs.forEach((doc) => {
-  const courseDiv = document.createElement('div');
-  
-  courseDiv.classList.add('course-item');
+      function deleteCourseInModal() {
+        getCourses().then((docs) => {
+          console.log(docs);
+          const courseListDiv = document.getElementById("course-list");
+          courseListDiv.innerHTML = "";
 
-  const courseDate = new Date(doc.Date.seconds * 1000); // 假設日期是Firestore的Timestamp
-  const formattedDate = courseDate.toLocaleDateString();
+          docs.forEach((doc) => {
+            const courseDiv = document.createElement("div");
 
-  courseDiv.textContent = `${formattedDate} | ${doc["Teacher"] || "N/A"} | ${
-          doc["Course"] || "N/A" }  |  ${
-          doc["Classroom"] || "N/A" }`;
-  courseListDiv.appendChild(courseDiv);
+            courseDiv.classList.add("course-item");
 
-  const deleteButton = document.createElement('button');
- 
-  // console.log(Id)
+            const courseDate = new Date(doc.Date.seconds * 1000); // 假設日期是Firestore的Timestamp
+            const formattedDate = courseDate.toLocaleDateString();
 
-  deleteButton.textContent = '刪除';
-  deleteButton.classList.add('delete-button');
-  deleteButton.classList.add('btn');
-  deleteButton.classList.add('btn-secondary');
-  deleteButton.classList.add('btn-sm');
+            courseDiv.textContent = `${formattedDate} | ${
+              doc["Teacher"] || "N/A"
+            } | ${doc["Course"] || "N/A"}  |  ${doc["Classroom"] || "N/A"}`;
+            courseListDiv.appendChild(courseDiv);
 
-  deleteButton.addEventListener('click', () => {const docId = doc["Id"];
-deleteCourse(docId)
-  .then(() => {
-    console.log("Document successfully deleted!");
-    deleteCourseInModal();
+            const deleteButton = document.createElement("button");
 
-  })
-  .catch((error) => {
-    console.error("Error deleting document: ", error);
-  });});
-courseDiv.appendChild(deleteButton);
-courseListDiv.appendChild(courseDiv);
-});
-})}
+            // console.log(Id)
 
+            deleteButton.textContent = "刪除";
+            deleteButton.classList.add("delete-button");
+            deleteButton.classList.add("btn");
+            deleteButton.classList.add("btn-secondary");
+            deleteButton.classList.add("btn-sm");
 
-
-
-
-
-
-      
-
-
+            deleteButton.addEventListener("click", () => {
+              const docId = doc["Id"];
+              deleteCourse(docId)
+                .then(() => {
+                  console.log("Document successfully deleted!");
+                  deleteCourseInModal();
+                })
+                .catch((error) => {
+                  console.error("Error deleting document: ", error);
+                });
+            });
+            courseDiv.appendChild(deleteButton);
+            courseListDiv.appendChild(courseDiv);
+          });
+        });
+      }
 
       // var exampleModal = document.getElementById("exampleModal");
       // exampleModal.addEventListener("show.bs.modal", function (event) {
@@ -464,8 +454,6 @@ courseListDiv.appendChild(courseDiv);
 
       //   modalTitle.textContent = "New message to " + recipient;
       //   modalBodyInput.value = recipient;
-
-
 
       // });
     </script>
