@@ -35,7 +35,7 @@ function createTable(docs, today) {
       timeCell.textContent = time;
       row.appendChild(timeCell);
 
-      for (let i = 0; i < titles.length - 1; i++) {
+      for (let i = 1; i < titles.length; i++) {
         const emptyCell = document.createElement("td");
 
         docs.forEach((doc) => {
