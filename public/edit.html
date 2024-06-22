@@ -137,6 +137,7 @@
                 </div>
                 <div class="modal-body">
                   <form>
+                    <input type="date" id="bookdate" />
                     <div class="mb-3">
                       <label for="recipient-name" class="col-form-label"
                         >教室</label
@@ -144,6 +145,7 @@
 
                       <div class="dropdown">
                         <button
+                          type="button"
                           class="btn btn-secondary dropdown-toggle"
                           href="#"
                           role="button"
@@ -243,7 +245,13 @@
                 </div>
                 <div class="modal-body">
                   <div id="course-list"></div>
-
+                  <div id="login-form">
+                    <label for="docId">docId:</label>
+                    <input type="text" id="docId" required />
+                    <button id="deleteButton" class="btn btn-secondary btn-sm">
+                      delete
+                    </button>
+                  </div>
                   <!-- <button type="button" class="btn btn-primary" id="deleteCourse">刪除</button> -->
                 </div>
                 <div class="modal-footer">
@@ -260,12 +268,6 @@
                 </div>
               </div>
             </div>
-          </div>
-
-          <div id="login-form">
-            <label for="docId">docId:</label>
-            <input type="text" id="docId" required />
-            <button id="deleteButton" class="btn btn-secondary">delete</button>
           </div>
         </div>
       </div>
@@ -377,9 +379,18 @@
         console.log(classinput2.value);
         const classinput3 = document.getElementById("classinput3");
         console.log(classinput3.value);
-
+        
+        const dateInput = document.getElementById("bookdate");
+        const selectedDate = dateInput.value;
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, "0"); // 月份從0開始，需要加1
+        const day = String(today.getDate()).padStart(2, "0");
+        const datee = `${year}-${month}-${day}`;
+        dateInput.value = datee;
+        
         addCourse(
-          new Date(2024, 5, 14),
+          new Date(`${year}-${month}-${day}`),
           classinput1,
           classinput2.value,
           ["09:00 - 09:30"],
@@ -445,17 +456,41 @@
         });
       }
 
-      // var exampleModal = document.getElementById("exampleModal");
-      // exampleModal.addEventListener("show.bs.modal", function (event) {
-      //   var button = event.relatedTarget;
-      //   var recipient = button.getAttribute("data-bs-whatever");
-      //   var modalTitle = exampleModal.querySelector(".modal-title");
-      //   var modalBodyInput = exampleModal.querySelector(".modal-body input");
+      // 設置預設日期為今日日期
+      function setDefaultDate() {
+        const dateInput = document.getElementById("bookdate");
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, "0"); // 月份從0開始，需要加1
+        const day = String(today.getDate()).padStart(2, "0");
+        const formattedDate = `${year}-${month}-${day}`;
+        dateInput.value = formattedDate;
 
-      //   modalTitle.textContent = "New message to " + recipient;
-      //   modalBodyInput.value = recipient;
+        getDate();
+      }
 
-      // });
+      // 當頁面加載時設置預設日期
+      window.onload = setDefaultDate;
+
+
+      //TODO 點擊後取得日期
+      document.getElementById("bookdate").onclick = () => {
+        const dateInput = document.getElementById("bookdate");
+        const selectedDate = dateInput.value;
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, "0"); // 月份從0開始，需要加1
+        const day = String(today.getDate()).padStart(2, "0");
+        const datee = `${year}-${month}-${day}`;
+        dateInput.value = datee;
+        console.log(`選擇的日期是: ${selectedDate}`);
+      };
+
+      function getDate() {
+        const dateInput = document.getElementById("bookdate");
+        const selectedDate = dateInput.value;
+        console.log(`選擇的日期是: ${selectedDate}`);
+      }
     </script>
   </body>
 </html>
