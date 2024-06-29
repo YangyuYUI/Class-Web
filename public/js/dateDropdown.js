@@ -2,16 +2,7 @@ import { getCourses } from "../api.js";
 import { createTable } from "./courseTable.js";
 
 document.addEventListener("DOMContentLoaded", function () {
-  // get current date
-  // function getCurrentDate() {
-  //   var today = new Date();
-  //   var year = today.getFullYear();
-  //   var month = String(today.getMonth() + 1).padStart(2, "0");
-  //   var day = String(today.getDate()).padStart(2, "0");
-  //   return year + "-" + month + "-" + day;
-  // }
-
-  // 更新下拉菜单内容
+    // 更新下拉菜单内容
   function updateDropdown() {
     var dropdownMenu = document.querySelector(".dropdown-menu");
     dropdownMenu.innerHTML = ""; // 清空原有内容

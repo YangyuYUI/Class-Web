@@ -137,7 +137,51 @@
                 </div>
                 <div class="modal-body">
                   <form>
-                    <input type="date" id="bookdate" />
+                    <input type="date" id="bookdate">
+                    課程時間
+                    
+                    <div class="col">
+                      <button
+                        type="button"
+                        class="btn btn-secondary dropdown-toggle"
+                        href="#"
+                        role="button"
+                        id="timedropdown"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        選擇時間
+                      </button>
+                      <ul
+                        class="dropdown-menu"
+                        id="timeDropdownStart"
+                        aria-labelledby="dropdownMenuButton2"
+                      >
+                        <li>選項 1</li>
+                      </ul>
+                    </div>
+                    ~
+                    <div class="col">
+                      <button
+                        type="button"
+                        class="btn btn-secondary dropdown-toggle"
+                        href="#"
+                        role="button"
+                        id="timedropdownEnd"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        選擇時間
+                      </button>
+                      <ul
+                        class="dropdown-menu"
+                        id="timeDropdownEnd"
+                        aria-labelledby="dropdownMenuButton2"
+                      >
+                        <li>選項 1</li>
+                      </ul>
+                    </div>
+
                     <div class="mb-3">
                       <label for="recipient-name" class="col-form-label"
                         >教室</label
@@ -349,6 +393,8 @@
       import {} from "./js/auth.js";
       import { createTable } from "./js/courseTable.js";
       import {} from "./js/dateDropDown.js";
+      import {} from "./js/timeDropDownStart.js";
+      import {} from "./js/timeDropDownEnd.js";
 
       const firestoreDataDiv = document.getElementById("firestore-data");
 
@@ -381,19 +427,38 @@
         console.log(classinput3.value);
         
         const dateInput = document.getElementById("bookdate");
-        const selectedDate = dateInput.value;
         const today = new Date();
         const year = today.getFullYear();
         const month = String(today.getMonth() + 1).padStart(2, "0"); // 月份從0開始，需要加1
         const day = String(today.getDate()).padStart(2, "0");
-        const datee = `${year}-${month}-${day}`;
-        dateInput.value = datee;
+        getDate();
+        document
         
+        .querySelector("#timeDropdownStart")
+        .addEventListener("click", function (event) {
+          var selectedClass = event.target.textContent;
+          var dropdownButton = document.getElementById("timedropdown");
+          // 選取下拉選單元素
+          var selection1 = document.getElementById("timeDropdownStart");
+          
+        });
+        document
+        
+        .querySelector("#timeDropdownEnd")
+        .addEventListener("click", function (event) {
+          var selectedClass = event.target.textContent;
+          var dropdownButton = document.getElementById("timedropdownEnd");
+          // 選取下拉選單元素
+          var selection2 = document.getElementById("timeDropdownEnd");
+          
+        });
         addCourse(
-          new Date(`${year}-${month}-${day}`),
+          
+          
+          new Date(dateInput.value),
           classinput1,
           classinput2.value,
-          ["09:00 - 09:30"],
+          [event.target.innerHTML,"-",event.target.innerHTML],
           classinput3.value
         )
           .then(function () {
@@ -469,28 +534,51 @@
         getDate();
       }
 
-      // 當頁面加載時設置預設日期
-      window.onload = setDefaultDate;
-
-
-      //TODO 點擊後取得日期
-      document.getElementById("bookdate").onclick = () => {
-        const dateInput = document.getElementById("bookdate");
-        const selectedDate = dateInput.value;
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, "0"); // 月份從0開始，需要加1
-        const day = String(today.getDate()).padStart(2, "0");
-        const datee = `${year}-${month}-${day}`;
-        dateInput.value = datee;
-        console.log(`選擇的日期是: ${selectedDate}`);
-      };
-
       function getDate() {
         const dateInput = document.getElementById("bookdate");
         const selectedDate = dateInput.value;
         console.log(`選擇的日期是: ${selectedDate}`);
       }
+
+      // 當頁面加載時設置預設日期
+      window.onload = setDefaultDate;
+
+      document
+        .querySelector("#timeDropdownStart")
+        .addEventListener("click", function (event) {
+          var selectedClass = event.target.textContent;
+          var dropdownButton = document.getElementById("timedropdown");
+          // 選取下拉選單元素
+          var selection = document.getElementById("timeDropdownStart");
+          // 確認選中的選項索引，並將對應的值設置為下拉選單按鈕的文字內容
+          dropdownButton.textContent = event.target.innerHTML;
+        });
+
+        document
+        .querySelector("#timeDropdownEnd")
+        .addEventListener("click", function (event) {
+          var selectedClass = event.target.textContent;
+          var dropdownButton = document.getElementById("timedropdownEnd");
+          // 選取下拉選單元素
+          var selection = document.getElementById("timeDropdownEnd");
+          // 確認選中的選項索引，並將對應的值設置為下拉選單按鈕的文字內容
+          dropdownButton.textContent = event.target.innerHTML;
+        });
+
+      //TODO 點擊後取得日期
+      // document.getElementById("bookdate").onclick = () => {
+      //   const dateInput = document.getElementById("bookdate");
+      //   const selectedDate = dateInput.value;
+      //   const today = new Date();
+      //   const year = today.getFullYear();
+      //   const month = String(today.getMonth() + 1).padStart(2, "0"); // 月份從0開始，需要加1
+      //   const day = String(today.getDate()).padStart(2, "0");
+      //   const datee = `${year}-${month}-${day}`;
+      //   dateInput.value = datee;
+      //   console.log(`選擇的日期是: ${selectedDate}`);
+      // };
+
+      
     </script>
   </body>
 </html>
