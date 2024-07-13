@@ -432,33 +432,34 @@
         const month = String(today.getMonth() + 1).padStart(2, "0"); // 月份從0開始，需要加1
         const day = String(today.getDate()).padStart(2, "0");
         getDate();
-        document
-        
-        .querySelector("#timeDropdownStart")
-        .addEventListener("click", function (event) {
-          var selectedClass = event.target.textContent;
-          var dropdownButton = document.getElementById("timedropdown");
-          // 選取下拉選單元素
-          var selection1 = document.getElementById("timeDropdownStart");
+
+
+        // document  
+        // .querySelector("#timeDropdownStart")
+        // .addEventListener("click", function (event) {
+        //   var selectedClass = event.target.textContent;
+        //   var dropdownButton1 = document.getElementById("timedropdown").innerHTML;
+        //   // 選取下拉選單元素
+        //   var selection1 = document.getElementById("timeDropdownStart");})
+
+        // .querySelector("#timeDropdownEnd")
+        // .addEventListener("click", function (event) {
+        //   var selectedClass = event.target.textContent;
+        //   var dropdownButton2 = document.getElementById("timedropdownEnd").innerHTML;
+        //   // 選取下拉選單元素
+        //   var selection2 = document.getElementById("timeDropdownEnd");
           
-        });
-        document
-        
-        .querySelector("#timeDropdownEnd")
-        .addEventListener("click", function (event) {
-          var selectedClass = event.target.textContent;
-          var dropdownButton = document.getElementById("timedropdownEnd");
-          // 選取下拉選單元素
-          var selection2 = document.getElementById("timeDropdownEnd");
-          
-        });
+        // });
+
+
+        var dropdownButton1 = document.getElementById("timedropdown").innerHTML;
+        var dropdownButton2 = document.getElementById("timedropdownEnd").innerHTML;
         addCourse(
-          
           
           new Date(dateInput.value),
           classinput1,
           classinput2.value,
-          [event.target.innerHTML,"-",event.target.innerHTML],
+          dropdownButton1 + " - " + dropdownButton2,
           classinput3.value
         )
           .then(function () {
@@ -491,7 +492,7 @@
 
             courseDiv.textContent = `${formattedDate} | ${
               doc["Teacher"] || "N/A"
-            } | ${doc["Course"] || "N/A"}  |  ${doc["Classroom"] || "N/A"}`;
+            } | ${doc["Course"] || "N/A"}  |  ${doc["Classroom"] || "N/A"} |  ${doc["Sections"] || "N/A"} `;
             courseListDiv.appendChild(courseDiv);
 
             const deleteButton = document.createElement("button");

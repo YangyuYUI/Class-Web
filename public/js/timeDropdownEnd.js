@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
           var dropdownItem = document.createElement("li");
           dropdownItem.classList.add("dropdown-item");
-          dropdownItem.innerHTML = `<a class="dropdown-item" href="#">${time}</a>`;
+          dropdownItem.innerHTML = time;
           dropdownMenu.appendChild(dropdownItem);
       }
   }}
