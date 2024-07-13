@@ -137,9 +137,9 @@
                 </div>
                 <div class="modal-body">
                   <form>
-                    <input type="date" id="bookdate">
+                    <input type="date" id="bookdate" />
                     課程時間
-                    
+
                     <div class="col">
                       <button
                         type="button"
@@ -425,7 +425,7 @@
         console.log(classinput2.value);
         const classinput3 = document.getElementById("classinput3");
         console.log(classinput3.value);
-        
+
         const dateInput = document.getElementById("bookdate");
         const today = new Date();
         const year = today.getFullYear();
@@ -433,33 +433,58 @@
         const day = String(today.getDate()).padStart(2, "0");
         getDate();
 
-
-        // document  
-        // .querySelector("#timeDropdownStart")
-        // .addEventListener("click", function (event) {
-        //   var selectedClass = event.target.textContent;
-        //   var dropdownButton1 = document.getElementById("timedropdown").innerHTML;
-        //   // 選取下拉選單元素
-        //   var selection1 = document.getElementById("timeDropdownStart");})
-
-        // .querySelector("#timeDropdownEnd")
-        // .addEventListener("click", function (event) {
-        //   var selectedClass = event.target.textContent;
-        //   var dropdownButton2 = document.getElementById("timedropdownEnd").innerHTML;
-        //   // 選取下拉選單元素
-        //   var selection2 = document.getElementById("timeDropdownEnd");
-          
-        // });
-
-
         var dropdownButton1 = document.getElementById("timedropdown").innerHTML;
-        var dropdownButton2 = document.getElementById("timedropdownEnd").innerHTML;
+        var dropdownButton2 =
+          document.getElementById("timedropdownEnd").innerHTML;
+
+        var dropdownButtonvalue1 = parseInt(
+          document.getElementById("timedropdown").value
+        );
+        var dropdownButtonvalue2 = parseInt(
+          document.getElementById("timedropdownEnd").value
+        );
+
+        var timeDifference = dropdownButtonvalue2 - dropdownButtonvalue1;
+        console.log(timeDifference);
+
+        var valueToFind;
+        var text;
+        let timeValue = [];
+        const startTime = 9; // 開始時間 9 點
+        const endTime = 19; // 結束時間 7 點
+        var i = 0;
+
+        for (let hour = startTime; hour < endTime; hour++) {
+          for (let minute = 0; minute < 60; minute += 30) {
+            const time = `${hour.toString().padStart(2, "0")}:${minute
+              .toString()
+              .padStart(2, "0")}`;
+
+            timeValue[i] = time;
+
+            i++;
+          }
+        }
+        var temp;
+
+        let showTable = [];
+        if (timeDifference > 0) {
+          for (
+            i = dropdownButtonvalue1;
+            i <= dropdownButtonvalue1 + timeDifference - 1;
+            i++
+          ) {
+            temp = timeValue[i] + " - " + timeValue[i + 1];
+            showTable.push(temp);
+          }
+        }
+
         addCourse(
-          
           new Date(dateInput.value),
           classinput1,
           classinput2.value,
-          dropdownButton1 + " - " + dropdownButton2,
+          showTable,
+          // timeValue[dropdownButtonvalue1] + " - " + timeValue[dropdownButtonvalue2],
           classinput3.value
         )
           .then(function () {
@@ -481,6 +506,10 @@
           console.log(docs);
           const courseListDiv = document.getElementById("course-list");
           courseListDiv.innerHTML = "";
+          var dropdownButton1 =
+            document.getElementById("timedropdown").innerHTML;
+          var dropdownButton2 =
+            document.getElementById("timedropdownEnd").innerHTML;
 
           docs.forEach((doc) => {
             const courseDiv = document.createElement("div");
@@ -489,10 +518,16 @@
 
             const courseDate = new Date(doc.Date.seconds * 1000); // 假設日期是Firestore的Timestamp
             const formattedDate = courseDate.toLocaleDateString();
+            
 
             courseDiv.textContent = `${formattedDate} | ${
               doc["Teacher"] || "N/A"
-            } | ${doc["Course"] || "N/A"}  |  ${doc["Classroom"] || "N/A"} |  ${doc["Sections"] || "N/A"} `;
+            } | ${doc["Course"] || "N/A"}  |  ${doc["Classroom"] || "N/A"} | `;
+            courseDiv.insertAdjacentText(
+              "beforeend",
+              `${dropdownButton1} - ${dropdownButton2}`
+            );
+
             courseListDiv.appendChild(courseDiv);
 
             const deleteButton = document.createElement("button");
@@ -553,9 +588,10 @@
           var selection = document.getElementById("timeDropdownStart");
           // 確認選中的選項索引，並將對應的值設置為下拉選單按鈕的文字內容
           dropdownButton.textContent = event.target.innerHTML;
+          dropdownButton.value = event.target.value;
         });
 
-        document
+      document
         .querySelector("#timeDropdownEnd")
         .addEventListener("click", function (event) {
           var selectedClass = event.target.textContent;
@@ -564,6 +600,7 @@
           var selection = document.getElementById("timeDropdownEnd");
           // 確認選中的選項索引，並將對應的值設置為下拉選單按鈕的文字內容
           dropdownButton.textContent = event.target.innerHTML;
+          dropdownButton.value = event.target.value;
         });
 
       //TODO 點擊後取得日期
@@ -578,8 +615,6 @@
       //   dateInput.value = datee;
       //   console.log(`選擇的日期是: ${selectedDate}`);
       // };
-
-      
     </script>
   </body>
 </html>
