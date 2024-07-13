@@ -1,0 +1,10 @@
+.about-container {
+    min-height: 80vh;
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .about-container {
+      width: 50%;
+    }
+  }

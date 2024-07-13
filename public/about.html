@@ -5,23 +5,115 @@
     <!--滿屏加載-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>關於</title>
-  
-</head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="https://md-block.verou.me/md-block.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/footer.css"/>
+    <link rel="stylesheet" type="text/css" href="css/about.css"/>
+  </head>
   <body>
-    <h1 class="visually-hidden">關於我們</h1>
-      <div class="container-fluid p-0">
-        <header class="d-flex flex-wrap justify-content-center py-3 mb-8 bg-dark border-bottom">
-          <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-            <img class="bi me-2" width="40" height="32" src="logo.png" alt="Logo">
-            <span class="fs-4 text-white">關於我們</span>
-          </a>
-          <button type="button" class="btn btn-light me-2" onclick="window.location.href = 'login.html'">登入</button>
-          <button type="button" class="btn btn-light me-3" onclick="window.location.href = 'about.html'">關於</button>
-        </header>
-      </div>
-    
+    <!-- Navbar -->
+    <div class="container-fluid p-0">
+      <header
+        class="d-flex flex-wrap justify-content-between py-3 mb-8 bg-dark border-bottom"
+      >
+        <a
+          href="/"
+          class="d-flex align-items-center text-dark text-decoration-none"
+        >
+          <img
+            class="bi me-2"
+            width="40"
+            height="32"
+            src="logo.png"
+            alt="Logo"
+          />
+          <span class="fs-4 text-white">關於我們</span>
+        </a>
+        <div>
+          <button
+            type="button"
+            class="btn btn-light me-2"
+            onclick="window.location.href = 'login.html'"
+          >
+            登入
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-primary me-2"
+            onclick="window.location.href = 'index.html'"
+          >
+            首頁
+          </button>
+        </div>
+      </header>
+    </div>
 
-    <script type="module">
-    </script>
+    <div class="mt-4 mx-auto about-container">
+      <md-block src="about.md"></md-block>
+    </div>
+
+    <footer class="site-footer mt-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12 col-md-6">
+            <h6>關於陪伴者</h6>
+            <p class="text-justify">以下訊息為測試用皆可修改  暫時先空著</p>
+          </div>
+
+          <div class="col-xs-6 col-md-3">
+            <h6>捐款資訊</h6>
+            <ul class="footer-links">
+              <li>戶名：社團法人陪伴者兒少生涯教育協會</li>
+              <li>銀行：上海商銀 松南分行 (代碼：011)</li>
+              <li>帳號：31102-0000-22460</li>
+              <li>郵政劃撥帳號：5019-5144 </li>
+              <li>愛心碼：2631098</li>
+              </ul>
+          </div>
+
+          <div class="col-xs-6 col-md-3">
+            <h6>聯絡我們</h6>
+            <ul class="footer-links">
+              <li>服務時間：星期一至五 9:00~18:00</li>
+              <li>社團法人陪伴者兒少生涯教育協會</a></li>
+              <li>TEL：02-2325-9026</a></li>
+              <li>FAX：02-2325-6372</li>
+              <li>陪伴者實驗教育機構</li>
+              <li>TEL：02-2708-2776</li>
+              <li>地址：<a href="https://maps.app.goo.gl/gsEouxXhmVWZf6cr6" title="map" target="_blank" rel="noopener">10692台北市大安區信義路四段341號7樓之1</a></li>
+            </ul>
+          </div>
+
+        </div>
+        <hr>
+      </div>
+      <div class="container p-1">
+        <div class="row">
+          <div class="col-md-8 col-sm-6 col-xs-12">
+            <p class="copyright-text">Copyright &copy; 2024 
+         <a href="https://www.mentors.org.tw/">陪伴者兒少生涯教育協會</a>
+            </p>
+          </div>
+
+          <!-- <div class="col-md-4 col-sm-6 col-xs-12">
+            <ul class="social-icons">
+              <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+              <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>  
+            </ul>
+          </div> -->
+          
+        </div>
+      </div>
+  </footer>
   </body>
 </html>
