@@ -238,6 +238,10 @@
                   </form>
                 </div>
                 <div class="modal-footer">
+                  <div>
+                    <font class="visually-hidden" id="addsuccess" color="#198754"> 課程提交成功！</font>
+                  
+                  </div>
                   <button
                     type="button"
                     class="btn btn-secondary"
@@ -251,6 +255,13 @@
                     id="addCourseButton"
                   >
                     提交資料
+                    <div
+                      class="visually-hidden ms-1 spinner-border spinner-border-sm"
+                      role="status"
+                      id="loading"
+                    >
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
                   </button>
                 </div>
               </div>
@@ -417,6 +428,7 @@
         });
 
       document.getElementById("addCourseButton").onclick = () => {
+        removeClass();
         const classinput1 = document.getElementById(
           "classDropdownButton"
         ).textContent;
@@ -489,9 +501,18 @@
         )
           .then(function () {
             console.log("Document successfully written!");
+            var element = document.getElementById("loading");
+            var element2 = document.getElementById("addsuccess");
+            element.classList.add("visually-hidden");
+            element2.classList.remove('visually-hidden');
+            setTimeout(function() {
+                element2.classList.add('visually-hidden');
+            }, 2000);
+            
           })
           .catch(function (error) {
             console.error("Error writing document: ", error);
+            
           });
       };
 
@@ -518,7 +539,6 @@
 
             const courseDate = new Date(doc.Date.seconds * 1000); // 假設日期是Firestore的Timestamp
             const formattedDate = courseDate.toLocaleDateString();
-            
 
             courseDiv.textContent = `${formattedDate} | ${
               doc["Teacher"] || "N/A"
@@ -603,18 +623,10 @@
           dropdownButton.value = event.target.value;
         });
 
-      //TODO 點擊後取得日期
-      // document.getElementById("bookdate").onclick = () => {
-      //   const dateInput = document.getElementById("bookdate");
-      //   const selectedDate = dateInput.value;
-      //   const today = new Date();
-      //   const year = today.getFullYear();
-      //   const month = String(today.getMonth() + 1).padStart(2, "0"); // 月份從0開始，需要加1
-      //   const day = String(today.getDate()).padStart(2, "0");
-      //   const datee = `${year}-${month}-${day}`;
-      //   dateInput.value = datee;
-      //   console.log(`選擇的日期是: ${selectedDate}`);
-      // };
+      function removeClass() {
+        var element = document.getElementById("loading");
+        element.classList.remove("visually-hidden");
+      }
     </script>
   </body>
 </html>
